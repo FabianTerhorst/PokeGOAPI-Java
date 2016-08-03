@@ -39,6 +39,7 @@ import com.pokegoapi.api.inventory.Pokeball;
 import com.pokegoapi.api.map.pokemon.encounter.DiskEncounterResult;
 import com.pokegoapi.api.map.pokemon.encounter.EncounterResult;
 import com.pokegoapi.api.map.pokemon.encounter.NormalEncounterResult;
+import com.pokegoapi.api.pokemon.PokemonDetails;
 import com.pokegoapi.exceptions.AsyncLoginFailedException;
 import com.pokegoapi.exceptions.AsyncRemoteServerException;
 import com.pokegoapi.exceptions.LoginFailedException;
@@ -184,7 +185,7 @@ public class CatchablePokemon implements MapPoint {
 							throw new AsyncRemoteServerException(e);
 						}
 						encountered = response.getStatus() == EncounterResponse.Status.ENCOUNTER_SUCCESS;
-						return new NormalEncounterResult(response);
+						return new NormalEncounterResult(api, response);
 					}
 				});
 	}
@@ -224,7 +225,7 @@ public class CatchablePokemon implements MapPoint {
 							throw new AsyncRemoteServerException(e);
 						}
 						encountered = response.getResult() == DiskEncounterResponse.Result.SUCCESS;
-						return new DiskEncounterResult(response);
+						return new DiskEncounterResult(api, response);
 					}
 				});
 	}
@@ -287,6 +288,81 @@ public class CatchablePokemon implements MapPoint {
 
 		useItem(ItemId.ITEM_RAZZ_BERRY);
 		return catchPokemon(pokeball, -1, -1);
+	}
+
+	/**
+	 * Tries to catch a pokemon with you best pokeball first
+	 * (start by the masterball if you have none then use the ultraball etc.)
+	 *
+	 * @return CatchResult catch result
+	 * @throws LoginFailedException  if failed to login
+	 * @throws RemoteServerException if the server failed to respond
+	 * @throws NoSuchItemException   the no such item exception
+	 */
+	public CatchResult catchPokemonWithBestBall() throws LoginFailedException,
+			RemoteServerException, NoSuchItemException {
+		return catchPokemonWithBestBall(false, -1);
+	}
+
+	/**
+	 * Tries to catch a pokemon with you best pokeball first
+	 * (start by the masterball if you have none then use the ultraball etc.)
+	 *
+	 * @param noMasterBall the no master ball
+	 * @return CatchResult catch result
+	 * @throws LoginFailedException  if failed to login
+	 * @throws RemoteServerException if the server failed to respond
+	 * @throws NoSuchItemException   the no such item exception
+	 */
+	public CatchResult catchPokemonWithBestBall(boolean noMasterBall) throws LoginFailedException,
+			RemoteServerException, NoSuchItemException {
+		return catchPokemonWithBestBall(noMasterBall, -1);
+	}
+
+	/**
+	 * Tries to catch a pokemon with you best pokeball first
+	 * (start by the masterball if you have none then use the ultraball etc.)
+	 *
+	 * @param noMasterBall the no master ball
+	 * @param amount       the amount
+	 * @return CatchResult catch result
+	 * @throws LoginFailedException  if failed to login
+	 * @throws RemoteServerException if the server failed to respond
+	 * @throws NoSuchItemException   the no such item exception
+	 */
+	public CatchResult catchPokemonWithBestBall(boolean noMasterBall, int amount) throws LoginFailedException,
+			RemoteServerException, NoSuchItemException {
+		return catchPokemonWithBestBall(noMasterBall, amount, -1);
+	}
+
+	/**
+	 * Tries to catch a pokemon with you best pokeball first
+	 * (start by the masterball if you have none then use the ultraball etc.)
+	 *
+	 * @param noMasterBall  the no master ball
+	 * @param amount        the amount
+	 * @param razberryLimit the razberry limit
+	 * @return CatchResult catch result
+	 * @throws LoginFailedException  if failed to login
+	 * @throws RemoteServerException if the server failed to respond
+	 * @throws NoSuchItemException   the no such item exception
+	 */
+	public CatchResult catchPokemonWithBestBall(boolean noMasterBall, int amount, int razberryLimit)
+			throws LoginFailedException, RemoteServerException, NoSuchItemException {
+		ItemBag bag = api.getInventories().getItemBag();
+		Pokeball pokeball;
+		if (bag.getItem(ItemId.ITEM_MASTER_BALL).getCount() > 0 && !noMasterBall) {
+			pokeball = Pokeball.MASTERBALL;
+		} else if (bag.getItem(ItemId.ITEM_ULTRA_BALL).getCount() > 0) {
+			pokeball = Pokeball.ULTRABALL;
+		} else if (bag.getItem(ItemId.ITEM_GREAT_BALL).getCount() > 0) {
+			pokeball = Pokeball.GREATBALL;
+		} else if (bag.getItem(ItemId.ITEM_POKE_BALL).getCount() > 0) {
+			pokeball = Pokeball.POKEBALL;
+		} else {
+			throw new NoSuchItemException();
+		}
+		return catchPokemon(pokeball, amount, razberryLimit);
 	}
 
 	/**
@@ -364,7 +440,7 @@ public class CatchablePokemon implements MapPoint {
 									double normalizedReticleSize, double spinModifier, Pokeball type,
 									int amount) throws LoginFailedException, RemoteServerException {
 
-		return catchPokemon(normalizedHitPosition, normalizedReticleSize, spinModifier, type, amount, -1);
+		return catchPokemon(normalizedHitPosition, normalizedReticleSize, spinModifier, type, amount, 0);
 	}
 
 	/**
@@ -394,16 +470,22 @@ public class CatchablePokemon implements MapPoint {
 				useItem(ItemId.ITEM_RAZZ_BERRY);
 				razberries++;
 			}
-			result = AsyncHelper.toBlocking(
-					catchPokemonAsync(normalizedHitPosition, normalizedReticleSize, spinModifier, type)
-			);
+			result = AsyncHelper.toBlocking(catchPokemonAsync(normalizedHitPosition,
+					normalizedReticleSize, spinModifier, type));
 			if (result == null) {
 				Log.wtf(TAG, "Got a null result after catch attempt");
 				break;
 			}
 			if (!result.isFailed() && result.getStatus() != CatchStatus.CATCH_ESCAPE
 					&& result.getStatus() != CatchStatus.CATCH_MISSED
-					|| result.getStatus() == CatchStatus.CATCH_FLEE) {
+					|| result.getStatus() == CatchStatus.CATCH_FLEE
+					) {
+				break;
+			}
+			if (result.getStatus() == CatchStatus.CATCH_ERROR
+					|| result.getStatus() == CatchStatus.UNRECOGNIZED) {
+				Log.wtf(TAG, "Got an error or unrecognized catch attempt");
+				Log.wtf(TAG, "Proto:" + result);
 				break;
 			}
 			numThrows++;
@@ -439,6 +521,7 @@ public class CatchablePokemon implements MapPoint {
 			return Observable.just(new CatchResult());
 		}
 
+		final CatchablePokemon instance = this;
 		CatchPokemonMessage reqMsg = CatchPokemonMessage.newBuilder()
 				.setEncounterId(getEncounterId()).setHitPokemon(true)
 				.setNormalizedHitPosition(normalizedHitPosition)
@@ -452,7 +535,6 @@ public class CatchablePokemon implements MapPoint {
 				.sendAsyncServerRequests(serverRequest).map(new Func1<ByteString, CatchResult>() {
 					@Override
 					public CatchResult call(ByteString result) {
-						System.out.println("ASYNC CATCH CALL");
 						CatchPokemonResponse response;
 
 						try {
@@ -461,21 +543,22 @@ public class CatchablePokemon implements MapPoint {
 							throw new AsyncRemoteServerException(e);
 						}
 						try {
+
+							// pokemon is caught of flees
 							if (response.getStatus() == CatchStatus.CATCH_FLEE
 									|| response.getStatus() == CatchStatus.CATCH_SUCCESS) {
-								api.getMap().getCatchablePokemon().remove(this);
+								api.getMap().removeCatchable(instance);
 							}
 
 
-							if (response.getStatus() != CatchStatus.CATCH_ESCAPE
-									&& response.getStatus() != CatchStatus.CATCH_MISSED) {
+							// escapes
+							if (response.getStatus() == CatchStatus.CATCH_ESCAPE) {
 								api.getInventories().updateInventories();
-								return new CatchResult(response);
-							} else {
-								CatchResult res = new CatchResult();
-								res.setStatus(CatchStatus.CATCH_ESCAPE);
-								return res;
 							}
+
+							CatchResult res = new CatchResult(response);
+							res.setStatus(response.getStatus());
+							return res;
 						} catch (RemoteServerException e) {
 							throw new AsyncRemoteServerException(e);
 						} catch (LoginFailedException e) {

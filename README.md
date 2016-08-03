@@ -28,7 +28,19 @@ ___
 # How to import
 
   Import from Maven/Gradle/SBT/Leiningen using JitPack : [![](https://jitpack.io/v/Grover-c13/PokeGOAPI-Java.svg)](https://jitpack.io/#Grover-c13/PokeGOAPI-Java)
-  
+
+  ```groovy
+  allprojects {
+    repositories {
+        jcenter()
+    }
+  }
+
+  dependencies {
+    compile 'com.pokegoapi:library:0.3'
+  }
+  ```
+
   After you clicked on this link, jitpack will show you multiple build (try use the latest one since the api grow everyday).
   JitPack will show an example for each dependency manager to include our API into your project.
 
@@ -39,20 +51,20 @@ OR
     - Select Build path > Java Build Path
     - Select Libraries tab
     - Select Add External JARs…
-    - Select `PokeGOAPI-Java/library/build/libs/library-all.jar`
+    - Select `PokeGOAPI-Java/library/build/libs/PokeGOAPI-library-all-0.0.1-SNAPSHOT.jar`
     - Finish
 
 # Build from source
   - Clone the repo and cd into the folder
   - `` git submodule update --init ``
   - `` ./gradlew :library:build ``
-  - you should have the api jar in ``build/libs/PokeGOAPI-Java-0.0.1-SNAPSHOT.jar``
+  - you should have the api jar in ``library/build/libs/PokeGOAPI-library-all-0.0.1-SNAPSHOT.jar``
 
 PS : for users who want to import the api into Eclipse IDE, you'll need to :
-  - build once : `` ./gradlew build ``
+  - build once : `` ./gradlew :library:build ``
   - Right click on the project
   - Select Build path > Configure Build Path > Source > Add Folder
-  - Select `build/generated/source/proto/main/java`
+  - Select `library/build/generated/source/proto/main/java`
   - Finish
 
 # Usage exemple (mostly how to login) :

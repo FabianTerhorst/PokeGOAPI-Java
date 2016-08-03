@@ -16,11 +16,13 @@
 package com.pokegoapi.api.pokemon;
 
 import POGOProtos.Enums.PokemonMoveOuterClass.PokemonMove;
+import lombok.Getter;
 
 import java.util.EnumMap;
 
 public class PokemonMoveMetaRegistry {
 
+	@Getter
 	private static EnumMap<PokemonMove, PokemonMoveMeta> meta = new EnumMap<>(PokemonMove.class);
 
 	static {
@@ -122,7 +124,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(500);
-		metam.setEnergy(7);
+		metam.setEnergy(6);
 		meta.put(PokemonMove.LICK_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -272,7 +274,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(950);
-		metam.setEnergy(7);
+		metam.setEnergy(8);
 		meta.put(PokemonMove.SHADOW_CLAW_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -482,7 +484,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1050);
-		metam.setEnergy(7);
+		metam.setEnergy(10);
 		meta.put(PokemonMove.POISON_JAB_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -492,7 +494,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1050);
-		metam.setEnergy(4);
+		metam.setEnergy(9);
 		meta.put(PokemonMove.ZEN_HEADBUTT_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -722,7 +724,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1040);
-		metam.setEnergy(7);
+		metam.setEnergy(10);
 		meta.put(PokemonMove.FEINT_ATTACK_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -752,7 +754,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1330);
-		metam.setEnergy(4);
+		metam.setEnergy(12);
 		meta.put(PokemonMove.STEEL_WING_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -782,7 +784,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1100);
-		metam.setEnergy(7);
+		metam.setEnergy(10);
 		meta.put(PokemonMove.TACKLE_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -802,7 +804,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1130);
-		metam.setEnergy(7);
+		metam.setEnergy(10);
 		meta.put(PokemonMove.CUT_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -812,7 +814,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(575);
-		metam.setEnergy(4);
+		metam.setEnergy(8);
 		meta.put(PokemonMove.POISON_STING_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -822,7 +824,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1450);
-		metam.setEnergy(7);
+		metam.setEnergy(12);
 		meta.put(PokemonMove.RAZOR_LEAF_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -832,7 +834,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(700);
-		metam.setEnergy(4);
+		metam.setEnergy(9);
 		meta.put(PokemonMove.SUCKER_PUNCH_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -842,7 +844,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(700);
-		metam.setEnergy(4);
+		metam.setEnergy(8);
 		meta.put(PokemonMove.SPARK_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -892,7 +894,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1050);
-		metam.setEnergy(7);
+		metam.setEnergy(10);
 		meta.put(PokemonMove.EMBER_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -902,7 +904,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1050);
-		metam.setEnergy(7);
+		metam.setEnergy(10);
 		meta.put(PokemonMove.ACID_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -982,7 +984,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1360);
-		metam.setEnergy(7);
+		metam.setEnergy(15);
 		meta.put(PokemonMove.ROCK_THROW_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1072,7 +1074,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(600);
-		metam.setEnergy(7);
+		metam.setEnergy(8);
 		meta.put(PokemonMove.THUNDER_SHOCK_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1092,7 +1094,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1200);
-		metam.setEnergy(7);
+		metam.setEnergy(10);
 		meta.put(PokemonMove.BULLET_PUNCH_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1102,7 +1104,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(840);
-		metam.setEnergy(4);
+		metam.setEnergy(8);
 		meta.put(PokemonMove.FIRE_FANG_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1112,7 +1114,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1230);
-		metam.setEnergy(7);
+		metam.setEnergy(10);
 		meta.put(PokemonMove.SPLASH_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1132,7 +1134,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1510);
-		metam.setEnergy(7);
+		metam.setEnergy(14);
 		meta.put(PokemonMove.CONFUSION_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1182,7 +1184,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1330);
-		metam.setEnergy(7);
+		metam.setEnergy(12);
 		meta.put(PokemonMove.QUICK_ATTACK_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1192,7 +1194,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(400);
-		metam.setEnergy(12);
+		metam.setEnergy(6);
 		meta.put(PokemonMove.FURY_CUTTER_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1202,7 +1204,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(800);
-		metam.setEnergy(7);
+		metam.setEnergy(8);
 		meta.put(PokemonMove.KARATE_CHOP_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1222,7 +1224,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1400);
-		metam.setEnergy(7);
+		metam.setEnergy(12);
 		meta.put(PokemonMove.ICE_SHARD_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1248,12 +1250,11 @@ public class PokemonMoveMetaRegistry {
 		metam = new PokemonMoveMeta();
 		metam.setMove(PokemonMove.BUBBLE_FAST);
 		metam.setType(PokemonType.WATER);
-		metam.setType(PokemonType.WATER);
 		metam.setPower(25);
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(2300);
-		metam.setEnergy(15);
+		metam.setEnergy(25);
 		meta.put(PokemonMove.BUBBLE_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1343,7 +1344,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1350);
-		metam.setEnergy(9);
+		metam.setEnergy(12);
 		meta.put(PokemonMove.MUD_SLAP_FAST, metam);
 
 		metam = new PokemonMoveMeta();
@@ -1393,7 +1394,7 @@ public class PokemonMoveMetaRegistry {
 		metam.setAccuracy(1);
 		metam.setCritChance(0.05);
 		metam.setTime(1410);
-		metam.setEnergy(7);
+		metam.setEnergy(12);
 		meta.put(PokemonMove.ROCK_SMASH_FAST, metam);
 
 	}
